@@ -1,0 +1,368 @@
+[
+  {
+    "id": "conv_billing_dispute_auth_then_tool",
+    "session_id": "conv-001",
+    "user_id": "user-001",
+    "turns": [
+      {
+        "utterance": "I was charged twice last month.",
+        "expected": {
+          "primary_intent": "billing_dispute",
+          "next_action": "authenticate_user",
+          "authenticated": false,
+          "missing_slots_contains": ["transaction_amount", "transaction_date"]
+        }
+      },
+      {
+        "utterance": "authenticate me, otp code is 123456",
+        "expected": {
+          "authenticated": true
+        }
+      },
+      {
+        "utterance": "The wrong charge was $43.21 on 2026-03-14.",
+        "expected": {
+          "primary_intent": "billing_dispute",
+          "next_action": "call_tool",
+          "authenticated": true,
+          "missing_slots_equals": []
+        }
+      }
+    ]
+  },
+  {
+    "id": "conv_update_card_auth_then_tool",
+    "session_id": "conv-002",
+    "user_id": "user-002",
+    "turns": [
+      {
+        "utterance": "Please update the card on file.",
+        "expected": {
+          "primary_intent": "update_payment_method",
+          "next_action": "authenticate_user",
+          "authenticated": false
+        }
+      },
+      {
+        "utterance": "I confirm my identity, otp code is 445566",
+        "expected": {
+          "authenticated": true
+        }
+      },
+      {
+        "utterance": "Update card on file ending in 9812.",
+        "expected": {
+          "primary_intent": "update_payment_method",
+          "next_action": "call_tool",
+          "authenticated": true,
+          "missing_slots_equals": []
+        }
+      }
+    ]
+  },
+  {
+    "id": "conv_lost_card_high_risk",
+    "session_id": "conv-003",
+    "user_id": "user-003",
+    "turns": [
+      {
+        "utterance": "I lost my debit card.",
+        "expected": {
+          "primary_intent": "lost_card",
+          "next_action": "authenticate_user",
+          "authenticated": false
+        }
+      },
+      {
+        "utterance": "verified, otp code is 777888",
+        "expected": {
+          "authenticated": true
+        }
+      },
+      {
+        "utterance": "My card was stolen, block it now.",
+        "expected": {
+          "primary_intent": "lost_card",
+          "next_action": "call_tool",
+          "authenticated": true
+        }
+      }
+    ]
+  },
+  {
+    "id": "conv_speak_to_agent",
+    "session_id": "conv-004",
+    "user_id": "user-004",
+    "turns": [
+      {
+        "utterance": "I need a human agent now.",
+        "expected": {
+          "primary_intent": "speak_to_agent",
+          "next_action": "escalate",
+          "authenticated": false
+        }
+      }
+    ]
+  },
+  {
+    "id": "conv_check_balance_after_auth",
+    "session_id": "conv-005",
+    "user_id": "user-005",
+    "turns": [
+      {
+        "utterance": "Check my balance.",
+        "expected": {
+          "primary_intent": "check_balance",
+          "next_action": "authenticate_user",
+          "authenticated": false
+        }
+      },
+      {
+        "utterance": "authenticate me, code is 112233",
+        "expected": {
+          "authenticated": true
+        }
+      },
+      {
+        "utterance": "What is my account balance?",
+        "expected": {
+          "primary_intent": "check_balance",
+          "next_action": "answer",
+          "authenticated": true
+        }
+      }
+    ]
+  },
+  {
+    "id": "conv_make_payment_auth_then_tool",
+    "session_id": "conv-006",
+    "user_id": "user-006",
+    "turns": [
+      {
+        "utterance": "I want to pay my bill.",
+        "expected": {
+          "primary_intent": "make_payment",
+          "next_action": "authenticate_user",
+          "authenticated": false
+        }
+      },
+      {
+        "utterance": "otp code is 232323",
+        "expected": {
+          "authenticated": true
+        }
+      },
+      {
+        "utterance": "Make a payment of $120.",
+        "expected": {
+          "primary_intent": "make_payment",
+          "next_action": "call_tool",
+          "authenticated": true,
+          "missing_slots_equals": []
+        }
+      }
+    ]
+  },
+  {
+    "id": "conv_change_address_needs_slot",
+    "session_id": "conv-007",
+    "user_id": "user-007",
+    "turns": [
+      {
+        "utterance": "I need to change my address.",
+        "expected": {
+          "primary_intent": "change_address",
+          "next_action": "authenticate_user",
+          "authenticated": false
+        }
+      },
+      {
+        "utterance": "verified otp",
+        "expected": {
+          "authenticated": true
+        }
+      },
+      {
+        "utterance": "Change my mailing address.",
+        "expected": {
+          "primary_intent": "change_address",
+          "next_action": "ask_clarification",
+          "authenticated": true,
+          "missing_slots_contains": ["new_address"]
+        }
+      }
+    ]
+  },
+  {
+    "id": "conv_loan_status",
+    "session_id": "conv-008",
+    "user_id": "user-008",
+    "turns": [
+      {
+        "utterance": "Any update on my loan application?",
+        "expected": {
+          "primary_intent": "loan_status",
+          "next_action": "authenticate_user",
+          "authenticated": false
+        }
+      },
+      {
+        "utterance": "otp code is 556677",
+        "expected": {
+          "authenticated": true
+        }
+      },
+      {
+        "utterance": "Check mortgage application status.",
+        "expected": {
+          "primary_intent": "loan_status",
+          "next_action": "answer",
+          "authenticated": true
+        }
+      }
+    ]
+  },
+  {
+    "id": "conv_billing_dispute_needs_clarification_post_auth",
+    "session_id": "conv-009",
+    "user_id": "user-009",
+    "turns": [
+      {
+        "utterance": "authenticate me, otp 919191",
+        "expected": {
+          "authenticated": true
+        }
+      },
+      {
+        "utterance": "I was billed wrong last month.",
+        "expected": {
+          "primary_intent": "billing_dispute",
+          "next_action": "ask_clarification",
+          "authenticated": true,
+          "missing_slots_contains": ["transaction_amount", "transaction_date"]
+        }
+      }
+    ]
+  },
+  {
+    "id": "conv_update_payment_method_missing_slot_post_auth",
+    "session_id": "conv-010",
+    "user_id": "user-010",
+    "turns": [
+      {
+        "utterance": "authenticate me, otp 888999",
+        "expected": {
+          "authenticated": true
+        }
+      },
+      {
+        "utterance": "Please update payment method.",
+        "expected": {
+          "primary_intent": "update_payment_method",
+          "next_action": "ask_clarification",
+          "authenticated": true,
+          "missing_slots_contains": ["card_last4"]
+        }
+      }
+    ]
+  },
+  {
+    "id": "conv_multi_intent_payment_dispute",
+    "session_id": "conv-011",
+    "user_id": "user-011",
+    "turns": [
+      {
+        "utterance": "I need to pay my bill but the amount looks wrong.",
+        "expected": {
+          "primary_intent": "billing_dispute",
+          "secondary_intents_contains": ["make_payment"],
+          "next_action": "authenticate_user",
+          "authenticated": false
+        }
+      }
+    ]
+  },
+  {
+    "id": "conv_multi_intent_dispute_and_card_update",
+    "session_id": "conv-012",
+    "user_id": "user-012",
+    "turns": [
+      {
+        "utterance": "I was charged twice and need to update card on file.",
+        "expected": {
+          "primary_intent": "billing_dispute",
+          "secondary_intents_contains": ["update_payment_method"],
+          "next_action": "authenticate_user",
+          "authenticated": false
+        }
+      }
+    ]
+  },
+  {
+    "id": "conv_balance_then_agent",
+    "session_id": "conv-013",
+    "user_id": "user-013",
+    "turns": [
+      {
+        "utterance": "What is my balance?",
+        "expected": {
+          "primary_intent": "check_balance",
+          "next_action": "authenticate_user",
+          "authenticated": false
+        }
+      },
+      {
+        "utterance": "Connect me to support.",
+        "expected": {
+          "primary_intent": "speak_to_agent",
+          "next_action": "escalate"
+        }
+      }
+    ]
+  },
+  {
+    "id": "conv_lost_card_then_agent",
+    "session_id": "conv-014",
+    "user_id": "user-014",
+    "turns": [
+      {
+        "utterance": "My card was stolen.",
+        "expected": {
+          "primary_intent": "lost_card",
+          "next_action": "authenticate_user",
+          "authenticated": false
+        }
+      },
+      {
+        "utterance": "I need a person now.",
+        "expected": {
+          "primary_intent": "speak_to_agent",
+          "next_action": "escalate"
+        }
+      }
+    ]
+  },
+  {
+    "id": "conv_make_payment_wrong_then_dispute",
+    "session_id": "conv-015",
+    "user_id": "user-015",
+    "turns": [
+      {
+        "utterance": "I want to settle my balance now.",
+        "expected": {
+          "primary_intent": "make_payment",
+          "next_action": "authenticate_user",
+          "authenticated": false
+        }
+      },
+      {
+        "utterance": "Actually the amount is incorrect and I was charged twice.",
+        "expected": {
+          "primary_intent": "billing_dispute",
+          "next_action": "authenticate_user",
+          "authenticated": false
+        }
+      }
+    ]
+  }
+]

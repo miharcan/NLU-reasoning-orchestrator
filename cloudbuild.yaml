@@ -1,0 +1,34 @@
+steps:
+  - name: "python:3.11"
+    entrypoint: "bash"
+    args:
+      - "-c"
+      - |
+        pip install -r requirements.txt
+        ./scripts/ci_check.sh
+  - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
+    entrypoint: "bash"
+    args:
+      - "-c"
+      - |
+        gcloud run deploy ${_SERVICE_NAME} \
+          --project ${PROJECT_ID} \
+          --region ${_REGION} \
+          --image ${_IMAGE} \
+          --allow-unauthenticated \
+          --min-instances=0 \
+          --max-instances=1 \
+          --memory=512Mi \
+          --cpu=1 \
+          --concurrency=40 \
+          --timeout=30 \
+          --port=8000 \
+          --no-cpu-boost
+
+images:
+  - ${_IMAGE}
+
+substitutions:
+  _SERVICE_NAME: nlu-reasoning-orchestrator
+  _REGION: us-central1
+  _IMAGE: us-central1-docker.pkg.dev/${PROJECT_ID}/nlu-reasoning-orchestrator/nlu-reasoning-orchestrator:${SHORT_SHA}

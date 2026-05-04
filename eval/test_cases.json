@@ -1,0 +1,102 @@
+[
+  {
+    "utterance": "I was charged twice last month",
+    "expected_intent": "billing_dispute",
+    "expected_multi_intent": false
+  },
+  {
+    "utterance": "Can I pay my bill today?",
+    "expected_intent": "make_payment",
+    "expected_multi_intent": false
+  },
+  {
+    "utterance": "I lost my debit card",
+    "expected_intent": "lost_card",
+    "expected_multi_intent": false
+  },
+  {
+    "utterance": "Please update the card on file ending in 9812",
+    "expected_intent": "update_payment_method",
+    "expected_multi_intent": false
+  },
+  {
+    "utterance": "What is my balance",
+    "expected_intent": "check_balance",
+    "expected_multi_intent": false
+  },
+  {
+    "utterance": "I need to talk to an agent",
+    "expected_intent": "speak_to_agent",
+    "expected_multi_intent": false
+  },
+  {
+    "utterance": "My address changed",
+    "expected_intent": "change_address",
+    "expected_multi_intent": false
+  },
+  {
+    "utterance": "Any update on my loan application",
+    "expected_intent": "loan_status",
+    "expected_multi_intent": false
+  },
+  {
+    "utterance": "I need to pay but the amount looks wrong",
+    "expected_intent": "billing_dispute",
+    "expected_multi_intent": true
+  },
+  {
+    "utterance": "I was charged twice and need to update card on file",
+    "expected_intent": "billing_dispute",
+    "expected_multi_intent": true
+  },
+  {
+    "utterance": "Make a payment of $120",
+    "expected_intent": "make_payment",
+    "expected_multi_intent": false
+  },
+  {
+    "utterance": "There is an incorrect charge on 2026-03-14 for $43.21",
+    "expected_intent": "billing_dispute",
+    "expected_multi_intent": false
+  },
+  {
+    "utterance": "Block my card immediately",
+    "expected_intent": "lost_card",
+    "expected_multi_intent": false
+  },
+  {
+    "utterance": "Please connect me to a representative",
+    "expected_intent": "speak_to_agent",
+    "expected_multi_intent": false
+  },
+  {
+    "utterance": "How much do I owe",
+    "expected_intent": "check_balance",
+    "expected_multi_intent": false
+  },
+  {
+    "utterance": "I want to settle my balance now",
+    "expected_intent": "make_payment",
+    "expected_multi_intent": false
+  },
+  {
+    "utterance": "Change my mailing address",
+    "expected_intent": "change_address",
+    "expected_multi_intent": false
+  },
+  {
+    "utterance": "Need help with mortgage status",
+    "expected_intent": "loan_status",
+    "expected_multi_intent": false
+  },
+  {
+    "utterance": "My new card should replace old autopay method",
+    "expected_intent": "update_payment_method",
+    "expected_multi_intent": false
+  },
+  {
+    "utterance": "I was billed wrong and want to pay it now",
+    "expected_intent": "billing_dispute",
+    "expected_multi_intent": true
+  }
+]
