@@ -95,7 +95,7 @@ nlu-reasoning-orchestrator/
 
 ## Quick start
 
-Python `3.11` is the recommended runtime for local development and CI.
+Python `3.11` is used in CI. Local development is also verified with Python `3.10.13`.
 
 ### Option 1: API only
 
@@ -104,6 +104,16 @@ python3.11 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 uvicorn app.main:app --reload --port 8001
+```
+
+If Python `3.11` is not installed locally, Python `3.10.13` works with the current
+dependency set and quality gates:
+
+```bash
+python3.10 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+./scripts/ci_check.sh
 ```
 
 Open:

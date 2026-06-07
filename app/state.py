@@ -10,7 +10,12 @@ class DialogueStateStoreProtocol(Protocol):
     def get_or_create(self, session_id: str, user_id: str) -> DialogueState:
         ...
 
-    def update_with_decision(self, state: DialogueState, decision: NLUDecision, utterance: str) -> DialogueState:
+    def update_with_decision(
+        self,
+        state: DialogueState,
+        decision: NLUDecision,
+        utterance: str,
+    ) -> DialogueState:
         ...
 
     def set_authenticated(self, session_id: str, value: bool) -> None:
@@ -31,7 +36,12 @@ class InMemoryDialogueStateStore:
             self._store[session_id] = state
         return state
 
-    def update_with_decision(self, state: DialogueState, decision: NLUDecision, utterance: str) -> DialogueState:
+    def update_with_decision(
+        self,
+        state: DialogueState,
+        decision: NLUDecision,
+        utterance: str,
+    ) -> DialogueState:
         state.turn_count += 1
         state.current_intent = decision.primary_intent
         state.collected_slots.update(decision.entities)
@@ -86,7 +96,12 @@ class RedisDialogueStateStore:
         self._save(state)
         return state
 
-    def update_with_decision(self, state: DialogueState, decision: NLUDecision, utterance: str) -> DialogueState:
+    def update_with_decision(
+        self,
+        state: DialogueState,
+        decision: NLUDecision,
+        utterance: str,
+    ) -> DialogueState:
         state.turn_count += 1
         state.current_intent = decision.primary_intent
         state.collected_slots.update(decision.entities)
