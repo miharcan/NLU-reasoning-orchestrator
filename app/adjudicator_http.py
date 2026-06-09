@@ -8,6 +8,10 @@ import requests
 from app.schemas import IntentScore, NLUDecision
 
 
+class HTTPAdjudicatorResponseError(ValueError):
+    """Raised when the remote adjudicator response cannot be used safely."""
+
+
 class HTTPAdjudicator:
     """Adjudicator that delegates reasoning to a remote HTTP LLM service."""
 
@@ -31,9 +35,10 @@ class HTTPAdjudicator:
             "candidates": [c.model_dump() for c in candidates],
             "entities": entities,
             "authenticated": authenticated,
+            "response_schema": NLUDecision.model_json_schema(),
             "task": (
-                "Return a strict JSON NLU decision with keys: primary_intent, "
-                "secondary_intents, entities, missing_slots, risk_level, next_action, reasoning"
+                "Return a JSON object that conforms exactly to response_schema. "
+                "If the request cannot be adjudicated safely, return a refusal field."
             ),
         }
         headers = {"Content-Type": "application/json"}
@@ -49,5 +54,13 @@ class HTTPAdjudicator:
         response.raise_for_status()
 
         body = response.json()
+        if body.get("refusal"):
+            raise HTTPAdjudicatorResponseError(f"Remote adjudicator refused: {body['refusal']}")
+
         decision_payload = body.get("decision", body)
+        if not isinstance(decision_payload, dict):
+            raise HTTPAdjudicatorResponseError(
+                "Remote adjudicator response did not include a decision object"
+            )
+
         return NLUDecision.model_validate(decision_payload)

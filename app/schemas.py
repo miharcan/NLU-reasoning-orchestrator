@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Dict, List, Optional
+from typing import Dict, List, Literal, Optional
 
 from pydantic import BaseModel, Field
 
@@ -36,12 +36,27 @@ class IntentScore(BaseModel):
 
 
 class NLUDecision(BaseModel):
-    primary_intent: str
+    primary_intent: Literal[
+        "billing_dispute",
+        "make_payment",
+        "update_payment_method",
+        "check_balance",
+        "lost_card",
+        "loan_status",
+        "change_address",
+        "speak_to_agent",
+    ]
     secondary_intents: List[str] = Field(default_factory=list)
     entities: Dict[str, str] = Field(default_factory=dict)
     missing_slots: List[str] = Field(default_factory=list)
-    risk_level: str = Field(..., pattern="^(low|medium|high)$")
-    next_action: str
+    risk_level: Literal["low", "medium", "high"]
+    next_action: Literal[
+        "answer",
+        "ask_clarification",
+        "authenticate_user",
+        "call_tool",
+        "escalate",
+    ]
     reasoning: str = Field(..., min_length=10)
 
 
