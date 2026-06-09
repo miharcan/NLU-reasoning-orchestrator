@@ -15,6 +15,7 @@ def test_state_endpoint_returns_session_state_after_analyze() -> None:
         },
     )
     assert analyze_response.status_code == 200
+    assert analyze_response.json()["decision"]["primary_intent"] == "lost_card"
 
     state_response = client.get("/state/state-api-1")
     assert state_response.status_code == 200
