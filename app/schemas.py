@@ -4,6 +4,25 @@ from typing import Dict, List, Literal, Optional
 
 from pydantic import BaseModel, Field
 
+SupportedIntent = Literal[
+    "billing_dispute",
+    "make_payment",
+    "update_payment_method",
+    "check_balance",
+    "lost_card",
+    "loan_status",
+    "change_address",
+    "speak_to_agent",
+]
+RiskLevel = Literal["low", "medium", "high"]
+NextAction = Literal[
+    "answer",
+    "ask_clarification",
+    "authenticate_user",
+    "call_tool",
+    "escalate",
+]
+
 SUPPORTED_INTENTS = {
     "billing_dispute",
     "make_payment",
@@ -36,27 +55,12 @@ class IntentScore(BaseModel):
 
 
 class NLUDecision(BaseModel):
-    primary_intent: Literal[
-        "billing_dispute",
-        "make_payment",
-        "update_payment_method",
-        "check_balance",
-        "lost_card",
-        "loan_status",
-        "change_address",
-        "speak_to_agent",
-    ]
-    secondary_intents: List[str] = Field(default_factory=list)
+    primary_intent: SupportedIntent
+    secondary_intents: List[SupportedIntent] = Field(default_factory=list)
     entities: Dict[str, str] = Field(default_factory=dict)
     missing_slots: List[str] = Field(default_factory=list)
-    risk_level: Literal["low", "medium", "high"]
-    next_action: Literal[
-        "answer",
-        "ask_clarification",
-        "authenticate_user",
-        "call_tool",
-        "escalate",
-    ]
+    risk_level: RiskLevel
+    next_action: NextAction
     reasoning: str = Field(..., min_length=10)
 
 

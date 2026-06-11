@@ -107,3 +107,33 @@ def test_http_adjudicator_raises_on_invalid_decision_schema(monkeypatch: pytest.
             entities={},
             authenticated=False,
         )
+
+
+def test_http_adjudicator_raises_on_invalid_secondary_intent(monkeypatch: pytest.MonkeyPatch) -> None:
+    def fake_post(url, json, headers, timeout):
+        return FakeResponse(
+            {
+                "decision": {
+                    "primary_intent": "check_balance",
+                    "secondary_intents": ["wire_transfer"],
+                    "entities": {},
+                    "missing_slots": [],
+                    "risk_level": "low",
+                    "next_action": "authenticate_user",
+                    "reasoning": "Unsupported secondary intents should fail schema validation.",
+                }
+            }
+        )
+
+    monkeypatch.setenv("ADJUDICATOR_HTTP_URL", "https://example.com/adjudicate")
+    monkeypatch.setattr("app.adjudicator_http.requests.post", fake_post)
+
+    adjudicator = HTTPAdjudicator()
+
+    with pytest.raises(ValidationError):
+        adjudicator.decide(
+            utterance="I want to check my balance",
+            candidates=[_candidate()],
+            entities={},
+            authenticated=False,
+        )

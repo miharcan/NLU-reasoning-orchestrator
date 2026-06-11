@@ -8,7 +8,7 @@ class BrokenAdjudicator:
         raise TimeoutError("simulated upstream timeout")
 
 
-class InvalidSchemaAdjudicator:
+class ValidationErrorAdjudicator:
     def decide(self, utterance, candidates, entities, authenticated):
         return NLUDecision.model_validate(
             {
@@ -95,7 +95,7 @@ def test_adjudicator_failure_uses_fallback() -> None:
 
 def test_invalid_adjudicator_schema_uses_fallback() -> None:
     monitor = DecisionMonitor()
-    orchestrator = NLUReasoningOrchestrator(monitor=monitor, adjudicator=InvalidSchemaAdjudicator())
+    orchestrator = NLUReasoningOrchestrator(monitor=monitor, adjudicator=ValidationErrorAdjudicator())
 
     response = orchestrator.analyze(
         session_id="s-5",
