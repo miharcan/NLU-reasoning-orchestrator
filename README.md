@@ -1,3 +1,5 @@
+> **GCP retirement — 11 November 2026:** Cloud deployment is being archived and shut down. Historical cloud URLs and deployment examples below are retained as reference. Do not run them. See [retirement records](docs/gcp-retirement/README.md).
+
 # NLU Reasoning Orchestrator
 
 A product-realistic conversational AI demo that shows how to safely orchestrate fast NLU, LLM-style reasoning, dialogue state, policy guardrails, and backend actions in a banking contact-centre setting.
